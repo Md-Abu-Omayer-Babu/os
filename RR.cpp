@@ -16,32 +16,27 @@ int main() {
     int time = 0;
     bool done = false;
 
-    // Continue until all processes are done
     while (!done) {
         done = true;
         
-        // Go through all processes
         for (int i = 0; i < n; i++) {
             if (rem[i] > 0) {
-                done = false; // There's still at least one process left
+                done = false;
                 
-                // Calculate how much time this process will execute now
                 int exec = (rem[i] > q) ? q : rem[i];
                 time += exec;
                 rem[i] -= exec;
                 
-                // If process completes, record its completion time
                 if (rem[i] == 0) {
-                    ct[i] = time; // Set completion time
+                    ct[i] = time;
                 }
             }
         }
     }
     
-    // Calculate waiting and turnaround times
     for (int i = 0; i < n; i++) {
-        tat[i] = ct[i];         // TAT = Completion Time (assuming arrival time = 0)
-        wt[i] = tat[i] - bt[i]; // WT = TAT - Burst Time
+        tat[i] = ct[i];
+        wt[i] = tat[i] - bt[i];
     }
 
     int totalWT = 0, totalTAT = 0;
