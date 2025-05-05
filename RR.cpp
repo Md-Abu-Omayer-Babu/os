@@ -6,7 +6,7 @@ int main() {
     ifstream in("rr_input.txt");
     int n, q;
     in >> n;
-    int bt[n], rem[n], wt[n] = {0}, tat[n];
+    int bt[n], rem[n], wt[n], tat[n], ct[n];
     for (int i = 0; i < n; i++) {
         in >> bt[i];
         rem[i] = bt[i];
@@ -14,25 +14,35 @@ int main() {
     in >> q;
 
     int time = 0;
-    bool done;
+    bool done = false;
 
-    do {
+    // Continue until all processes are done
+    while (!done) {
         done = true;
+        
+        // Go through all processes
         for (int i = 0; i < n; i++) {
             if (rem[i] > 0) {
-                done = false;
+                done = false; // There's still at least one process left
+                
+                // Calculate how much time this process will execute now
                 int exec = (rem[i] > q) ? q : rem[i];
-                rem[i] -= exec;
-                for (int j = 0; j < n; j++)
-                    if (j != i && rem[j] > 0)
-                        wt[j] += exec;
                 time += exec;
+                rem[i] -= exec;
+                
+                // If process completes, record its completion time
+                if (rem[i] == 0) {
+                    ct[i] = time; // Set completion time
+                }
             }
         }
-    } while (!done);
-
-    for (int i = 0; i < n; i++)
-        tat[i] = wt[i] + bt[i];
+    }
+    
+    // Calculate waiting and turnaround times
+    for (int i = 0; i < n; i++) {
+        tat[i] = ct[i];         // TAT = Completion Time (assuming arrival time = 0)
+        wt[i] = tat[i] - bt[i]; // WT = TAT - Burst Time
+    }
 
     int totalWT = 0, totalTAT = 0;
     cout << "ID\tBT\tWT\tTAT\n";

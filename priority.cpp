@@ -22,7 +22,7 @@ int main() {
     for (int i = 1; i < n; i++)
         wt[index[i]] = wt[index[i - 1]] + bt[index[i - 1]];
     for (int i = 0; i < n; i++)
-        tat[i] = wt[i] + bt[i];
+        tat[index[i]] = wt[index[i]] + bt[index[i]];
 
     int totalWT = 0, totalTAT = 0;
     cout << "ID\tBT\tPR\tWT\tTAT\n";
